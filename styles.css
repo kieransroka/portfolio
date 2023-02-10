@@ -1,0 +1,805 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Poppins&family=Libre+Barcode+128&display=swap');
+
+@font-face {
+    font-family: LeviWindows;
+    src: url(fonts/LeviWindows.ttf);
+}
+
+/*Html style*/
+html {
+    max-width: 100vw;
+    height: 100vh;
+    letter-spacing: 0.3px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100%;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+button:focus {
+    outline: 1px dotted #000000 !important;
+    outline-offset: -1.5px;
+}
+
+button:active {
+    box-shadow: inset 0 0 0 1000px rgba(19, 19, 19, 0.16) !important;
+}
+
+button:hover {
+    outline: 1.5px inset #e5e5e5 !important;
+    outline-offset: -1.7px;
+    /* box-shadow: inset 0 0 0 1000px rgba(128, 128, 128, 0.2); */
+    box-shadow: inset 0 0 0 1000px rgba(19, 19, 19, 0.011);
+}
+
+/* ~~~~~~~TOP OF HOME PAGE START ~~~~~~~~*/
+* {
+    box-sizing: border-box !important;
+}
+
+h1 {
+    font-family: 'Major Mono Display', monospace;
+}
+
+/*Logo at top left of page*/
+#logo {
+    width: 100px;
+    height: auto;
+    animation-name: logopulse;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+/*Nav bar*/
+nav {
+    min-height: 100px;
+    max-height: 100px;
+    background-color: #201C33 !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: #94D0FF !important;
+}
+
+/*Pink line on nav next to links*/
+#first-nav-link {
+    border-left: #FF6AD5 solid;
+}
+
+/*Jumbo at top of page*/
+.jumbotron {
+    animation-name: bgscroll;
+    animation-duration: 50s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    background-image: linear-gradient(to right, rgba(8, 8, 8, 0.575), rgba(19, 18, 18, 0.562)), url(images/background.jpg);
+    background-size: cover;
+    height: 104vh;
+}
+
+/*Large logo on jumbo*/
+#main-logo {
+    height: 100%;
+    margin-right: 0px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(images/logo-center.svg);
+}
+
+/*Animation for pulsing logo top left*/
+@keyframes logopulse {
+    0% {
+        height: 100px
+    }
+
+    50% {
+        height: 120px
+    }
+
+    100% {
+        height: 100px
+    }
+}
+
+/*Animation for moving background on jumbo*/
+@keyframes bgscroll {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+/*~~~~~~~~~TOP OF MAIN PAGE END~~~~~~~~~*/
+
+/* Bottom page container */
+#w95-home {
+    background-color: #008080;
+    min-height: 100vh;
+}
+
+/* Pink overlay */
+#overlay {
+    z-index: 2;
+    position: absolute;
+    background-color: #FF6AD5;
+    width: 100%;
+    height: 100%;
+    opacity: 40%;
+    pointer-events: none;
+}
+
+/* Container for icons on left */
+#icon-contain {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+/* Icons on left */
+.icons-95 {
+    width: 50px;
+    height: 50px;
+}
+
+/* Text under icons on left */
+.icons-95-txt {
+    font-family: 'Libre Barcode 128', cursive;
+}
+
+/* Sets width of col for icons */
+.fixed-icon-col {
+    min-width: 120px;
+    max-width: 120px;
+}
+
+/* IE container */
+#ie-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1000px;
+    height: 750px;
+    max-width: 100%;
+    max-height: 100%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    border: 2px outset #e5e5e5;
+    border-right: 1.5px solid #4b4b4b;
+    border-bottom: 1.5px solid #4b4b4b;
+    resize: both;
+    overflow: hidden;
+}
+
+#ie-box-border {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #b1b1b1;
+    border-right: 3px ridge #e5e5e5;
+    background-color: #c4c4c4;
+    overflow: hidden;
+}
+
+#ie-header {
+    min-width: 100%;
+    height: auto;
+    border: 1.5px solid #787878;
+    border-bottom: 1.5px solid #ededed;
+    margin-top: 2px;
+    background-color: #C4C4C4;
+}
+
+/* Topmost bar on IE */
+#ie-box-header {
+    min-width: 100%;
+    max-height: 20px;
+    background: linear-gradient(90deg, rgba(0, 0, 128, 1) 0%, rgba(16, 132, 208, 1) 100%);
+    font-family: 'LeviWindows';
+    font-size: 15px;
+    font-weight: 200;
+    color: #ffffff;
+    cursor: move;
+}
+
+/* Icons on top right of IE box */
+#mini-btn {
+    height: 14px;
+    width: 14px;
+    background-image: url(images/min.png);
+    background-size: cover;
+    border: none;
+}
+
+#maxi-btn {
+    height: 14px;
+    width: 14px;
+    background-image: url(images/max.png);
+    background-size: cover;
+    border: none;
+}
+
+#close-btn {
+    height: 14px;
+    width: 14px;
+    background-image: url(images/close-2.png);
+    background-size: cover;
+    border: none;
+    margin-left: 2px;
+}
+
+/* File bar on IE */
+#ie-file {
+    min-width: 100%;
+    font-family: 'LeviWindows';
+    font-weight: 500;
+    font-size: 13px;
+    border-top: 1.5px solid #ededed;
+    border-left: 1.5px solid #ededed;
+    border-right: 1.5px solid #ededed;
+    border-bottom: 1.5px solid #8d8d8d;
+    background-color: #C4C4C4;
+}
+
+/* Sets list style for file bar */
+ul {
+    list-style: none;
+}
+
+/* Back bar on IE */
+#ie-back {
+    min-width: 100%;
+    min-height: fit-content;
+    font-family: 'LeviWindows';
+    font-size: 15px;
+    border-top: 1.5px solid #ededed;
+    border-left: 1.5px solid #ededed;
+    border-right: 1.5px solid #ededed;
+    border-bottom: 1.5px solid #8d8d8d;
+    background-color: #C4C4C4;
+}
+
+#back-little-bar {
+    width: 3.02px;
+    height: 45px;
+}
+
+.back-icon-col {
+    max-width: 57px;
+}
+
+/* All icons on back bar */
+.back-icons {
+    width: 20px;
+    height: auto;
+}
+
+/* Address bar on IE */
+#ie-address {
+    min-width: 100%;
+    background-color: #C4C4C4;
+    font-family: 'LeviWindows';
+    font-size: 13px;
+    border-top: 1.5px solid #ededed;
+    border-left: 1.5px solid #ededed;
+    border-right: 1.5px solid #ededed;
+    border-bottom: 1.5px solid #8d8d8d;
+}
+
+#address-start {
+    width: 65px;
+}
+
+/* Long address bar on address bar */
+#address-bar {
+    min-width: 75%;
+    height: 21px;
+    background-color: #ffffff;
+    box-shadow: 1px 1px 1px 0.1px #8b8b8bcc inset, -1px -1px #eaeaea inset, 2px 2px #1a1a1a inset, -2px 0px #101010 inset;
+}
+
+.address-logo {
+    width: auto;
+    height: 15px;
+}
+
+#address-url {
+    margin-top: 1.5px;
+}
+
+/* Arrow icon on address bar */
+#arrow-icon {
+    width: 16px;
+    height: calc(100% - 4px);
+    display: block;
+    margin-right: 2px;
+    margin-top: 1px;
+}
+
+#address-go {
+    max-width: fit-content;
+    border-right: 1.5px solid #8d8d8d;
+}
+
+#address-go-arrow {
+    margin-bottom: 3px;
+}
+
+#address-links {
+    border-left: 1.5px solid #ededed;
+    max-width: fit-content;
+}
+
+/* Separtor on address bar */
+.separate-bar {
+    height: 16px;
+}
+
+/* Main area of IE box */
+#ie-main {
+    height: 100%;
+    padding-bottom: 21px;
+    background-color: #ffffff;
+    border: 1.5px solid #4b4b4b;
+    border-bottom: 1.5px #8d8d8d;
+    overflow: hidden;
+}
+
+/* For main area logo on IE and the input field */
+#explore-music-online-img,
+#musicQuery {
+    width: 32%;
+    min-width: 320px;
+    font-family: 'LeviWindows';
+}
+
+#spinner {
+    width: 20px;
+    height: 20px;
+    color: #c4c4c4;
+    display: none;
+}
+
+/* For search and view all buttons */
+#submit,
+#viewAll {
+    width: 15%;
+    min-width: 145px;
+    font-family: 'LeviWindows';
+}
+
+/* For table search result */
+table {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Play button on table */
+.playBtn {
+    font-family: 'LeviWindows';
+    font-size: 12px;
+    background: #C0C0C0;
+    border-width: 2px;
+    border-color: #FFFFFF #808080 #808080 #FFFFFF;
+    box-shadow: 2px 2px;
+    z-index: 1;
+}
+
+/* Bottom bar on IE box */
+#ie-bottom {
+    position: fixed;
+    bottom: 0px;
+    left: 11px;
+    width: 100%;
+    max-height: 21px;
+    background-color: #c4c4c4;
+    border: 2px solid #c4c4c4;
+
+}
+
+#ie-bottom::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -2px;
+    border-right: 1.5px inset #ffffff;
+    width: 1px;
+    height: 61%;
+}
+
+/* For style of bars on bottom bar */
+.ie-bottom-bars {
+    font-family: 'LeviWindows';
+    font-size: 10px;
+    max-height: 19px;
+    border-left: 1.5px solid #8d8d8d;
+    border-top: 1.5px solid #8d8d8d;
+    border-right: 1.5px solid #ffffff;
+    border-bottom: 1.5px solid #ffffff;
+}
+
+#bottom-bar-last {
+    clip-path: polygon(100% 0, 100% 49%, 96% 100%, 0 100%, 0 0);
+    border-right: none;
+}
+
+
+
+/* For logo on bottom bar */
+#ie-bottom-logo {
+    width: 20px;
+}
+
+#earthsearch-bottom {
+    width: 12px;
+    height: auto;
+    margin-bottom: 4px;
+}
+
+#internet-zone {
+    line-height: 18px;
+}
+
+
+/* ~~~~~~~~FOOTER START~~~~~~~~ */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #C4C4C4;
+    border-top: #f5edf3 solid 3px;
+    overflow: hidden;
+}
+
+/* Start button footer */
+#start {
+    width: 75px;
+    height: 25px;
+    font-family: 'LeviWindows';
+    font-size: 17px;
+    background: #C0C0C0;
+    border: 3px outset #dadada;
+    z-index: 1;
+}
+
+/* For dropup menu */
+.dropdown-menu {
+    background-color: #C4C4C4;
+    border-radius: 0;
+    border: 3px solid #C4C4C4;
+    width: 250px;
+    height: 500px;
+    font-family: 'LeviWindows';
+    font-size: 15px;
+}
+
+/* For icons on dropup menu */
+.menu-icons {
+    width: 45px;
+    height: 45px;
+}
+
+/* For image on dropup menu */
+#vapSun {
+    width: 100px;
+    height: 100px;
+}
+
+/* For logo on start button */
+#footer-logo {
+    width: auto;
+    height: 23px;
+}
+
+/* For small bars on footer */
+.foot-bars {
+    height: 25px;
+}
+
+/* For audio bar and manipulating controls */
+audio {
+    max-width: 100% !important;
+    min-width: 100px !important;
+    max-height: 25px;
+}
+
+audio::-webkit-media-controls-mute-button {
+    display: none;
+}
+
+audio::-webkit-media-controls-timeline {
+    min-width: 50% !important;
+}
+
+audio::-webkit-media-controls-current-time-display {
+    display: none;
+}
+
+audio::-webkit-media-controls-time-remaining-display {
+    display: none;
+}
+
+/* For time in bottom right */
+#time {
+    background: #C0C0C0;
+    border: 2.5px inset #ffffff;
+    font-family: 'LeviWindows';
+    font-size: 11px;
+}
+
+/* For volcume icon bottom right */
+#volume {
+    width: 25px;
+    height: 25px;
+}
+
+/*To help animation speed speed up on larger screens*/
+@media only screen and (min-width: 1800px) {
+    .jumbotron {
+        animation-duration: 25s;
+    }
+}
+
+/*For main logo to stay in center on certain reoslution*/
+@media only screen and (max-width: 1024px) and (max-height:1366px) {
+    #main-logo {
+        background-size: contain;
+    }
+}
+
+/*For main logo to stay in center*/
+@media only screen and (max-width: 1000px) {
+    #main-logo {
+        background-size: contain;
+    }
+}
+
+
+/*Media query for mobile/when hamburger appears*/
+@media only screen and (max-width: 991.9px) {
+
+    nav,
+    .navbar-brand {
+        padding-top: 0 !important;
+    }
+
+    #logo {
+        animation-name: none;
+        width: 80px;
+    }
+
+    .jumbotron {
+        animation-duration: 50s;
+    }
+
+    #ie-box-header {
+        font-size: 9px;
+    }
+
+    #min-icons {
+        width: 45px;
+    }
+
+    #ie-file {
+        font-size: 9px;
+        height: 20px;
+    }
+
+    #ie-back {
+        font-size: 9px;
+        height: 40px;
+    }
+
+    #ie-address {
+        font-size: 9.5px;
+    }
+
+    .back-icons {
+        width: 20px;
+        height: 20px;
+    }
+
+}
+
+/* Hides links on address bar at smaller viewport */
+@media only screen and (max-width: 788px) {
+    #address-links {
+        display: none;
+    }
+}
+
+/* For address bar and bottom bats fonts issue at small viewport  */
+
+@media only screen and (max-width: 783px) {
+    #address-bar {
+        font-size: 9px;
+    }
+
+    .ie-bottom-bars {
+        font-size: 7px;
+    }
+}
+
+
+@media only screen and (max-width: 783px) {
+    #address-bar {
+        font-size: 9px;
+    }
+
+    .ie-bottom-bars {
+        font-size: 7px;
+    }
+
+    table {
+        font-size: 9px;
+    }
+
+
+    audio::-webkit-media-controls-timeline {
+        min-width: 25% !important;
+    }
+
+    .playBtn {
+        font-size: 6px;
+    }
+}
+
+@media only screen and (max-height: 550px) {
+    #ie-col {
+        height: 50%;
+    }
+}
+
+/* For mobiles */
+@media only screen and (max-width: 500px) {
+    #ie-col {
+        margin-left: 0;
+        padding-left: 25px;
+        padding-right: 0;
+        min-width: 100%;
+    }
+
+    #ie-box,
+    #ie-box-header,
+    #ie-file,
+    #ie-back,
+    #ie-address,
+    #ie-main {
+        max-width: 100%;
+        font-size: 7px;
+    }
+
+    #musicTable {
+        font-size: 8px;
+    }
+
+    #ie-box {
+        min-width: 100%;
+    }
+
+    #address-bar {
+        min-width: 50%;
+        height: 20px;
+    }
+
+    #address-bar-col {
+        height: 15px;
+    }
+
+    #arrow-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    #spinner {
+        width: 12px;
+        height: 12px;
+    }
+
+    #ie-bottom {
+        max-width: 100%;
+    }
+
+    #ie-bottom-txt {
+        font-size: 6px;
+    }
+}
+
+/* Smaller mobiles */
+@media only screen and (max-width: 376px) {
+    #music-table {
+        font-size: 7px;
+    }
+
+    #address-bar {
+        font-size: 7px;
+    }
+
+    #musicQuery {
+        min-width: 240px;
+    }
+
+    #time {
+        font-size: 9px;
+        min-width: 80px;
+    }
+}
+
+/*Smaller mobiles*/
+@media only screen and (max-width: 360px) {
+
+    #ie-home-icon {
+        display: none;
+    }
+
+    #address-bar {
+        font-size: 6.8px;
+    }
+
+    #ie-bottom-txt {
+        font-size: 5px;
+    }
+
+    #music-table {
+        font-size: 6px;
+    }
+
+    #explore-music-online-img {
+        min-width: 250px;
+    }
+
+    #btm-bar-2 {
+        display: none;
+    }
+
+    #btm-bar-3 {
+        display: none;
+    }
+
+    #time {
+        padding-top: 9px !important;
+        font-size: 7.9px;
+        min-width: 0;
+    }
+
+    #volume {
+        display: none;
+    }
+
+    #start {
+        width: 75px;
+        height: 28px;
+        font-size: 8px;
+        padding-bottom: 25px;
+    }
+
+    audio {
+        padding-top: 5px;
+    }
+
+    .fixed-size {
+        min-width: 210px;
+    }
+
+    .fixed-size-sm {
+        max-width: 100px;
+    }
+}
