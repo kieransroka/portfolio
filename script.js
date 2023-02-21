@@ -1,111 +1,153 @@
-// Drag IE Windows
-dragElement(document.getElementById("ie-box"));
-
-
-//Checks if ie-box goes outside view
-function elementOutside(elmnt) {
-    if (elmnt.getBoundingClientRect().top <= 0) {
-        elmnt.style.top = (elmnt.offsetHeight * 0.5) + "px";
-    }
-
-    if (elmnt.getBoundingClientRect().left <= 0) {
-        elmnt.style.left = (elmnt.offsetWidth * 0.5) + "px";
-    }
-
-    if (elmnt.getBoundingClientRect().right >= window.innerWidth) {
-        elmnt.style.left = window.innerWidth - (elmnt.offsetWidth * 0.5) + "px";
-    }
-
-    if (elmnt.getBoundingClientRect().bottom >= window.innerHeight) {
-        elmnt.style.top = window.innerHeight - (elmnt.offsetHeight * 0.5) + "px";
-    }
+// For Maximise Button
+let maxedState = [];
+let oldHeight = [];
+let oldWidth = [];
+let oldLeft = [];
+let oldTop = [];
+let maxiEventListened = [];
+//Maximise ie window function
+function maxiButton(i, e) {
+    document.getElementsByClassName("maxi-btn")[i].addEventListener("click", function () {
+        let maxiBtn = document.getElementsByClassName("maxi-btn")[i];
+        if (!maxedState[i]) {
+            oldHeight[i] = e.offsetHeight;
+            oldWidth[i] = e.offsetWidth;
+            oldLeft[i] = e.offsetLeft;
+            oldTop[i] = e.offsetTop;
+            e.style.width = "100%";
+            e.style.height = window.innerHeight - 40 + "px";
+            e.style.top = (e.offsetHeight * 0.5) + "px";
+            e.style.left = (e.offsetWidth * 0.5) + "px"
+            maxiBtn.style.backgroundImage = "url(images/unmax.png)"
+        } else if (maxedState[i]) {
+            e.style.width = oldWidth[i] + "px";
+            e.style.height = oldHeight[i] + "px";
+            e.style.left = oldLeft[i] + "px";
+            e.style.top = oldTop[i] + "px";
+            maxiBtn.style.backgroundImage = "url(images/max.png)"
+        }
+        maxedState[i] = !maxedState[i];
+    })
 }
+//Ie-box window create
+document.getElementById("button").addEventListener("click", function () {
+    // For making new div
+    const newDiv = document.createElement("div");
+    //gets window info from html
+    async function openExplorer() {
+        //gets info from html file
+        const resp = await fetch("ie-box.html");
+        const html = await resp.text();
+        // Creates new div in main
+        document.getElementsByTagName("main")[0].appendChild(newDiv);
+        //Fills div with info from html file
+        newDiv.innerHTML = html;
+        let header = newDiv.querySelector(".ie-box-header");
+        // Drag IE Windows
+        dragElement(newDiv.firstChild);
 
-function dragElement(elmnt) {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id + "-header")) {
-        // if present, the header is where you move the DIV from:
-        document.getElementById(elmnt.id + "-header").onmousedown = dragMouseDown;
-    } else {
-        // otherwise, move the DIV from anywhere inside the DIV:
-        elmnt.onmousedown = dragMouseDown;
+        //Checks if ie-box goes outside view
+        function elementOutside(elmnt) {
+            if (elmnt.getBoundingClientRect().top <= 0) {
+                elmnt.style.top = (elmnt.offsetHeight * 0.5) + "px";
+            }
+
+            if (elmnt.getBoundingClientRect().left <= 0) {
+                elmnt.style.left = (elmnt.offsetWidth * 0.5) + "px";
+            }
+
+            if (elmnt.getBoundingClientRect().right >= window.innerWidth) {
+                elmnt.style.left = window.innerWidth - (elmnt.offsetWidth * 0.5) + "px";
+            }
+
+            if (elmnt.getBoundingClientRect().bottom >= window.innerHeight) {
+                elmnt.style.top = window.innerHeight - (elmnt.offsetHeight * 0.5) + "px";
+            }
+        }
+
+        function dragElement(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (header) {
+                // if present, the header is where you move the DIV from:
+                header.onmousedown = dragMouseDown;
+            } else {
+                // otherwise, move the DIV from anywhere inside the DIV:
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                elementOutside(newDiv.firstChild);
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // stop moving when mouse button is released:
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        const resizeObserver = new ResizeObserver(entires => {
+            elementOutside(newDiv.firstChild);
+        });
+        resizeObserver.observe(newDiv.firstChild);
+    }
+    function windowAdd() {
+        const ieWindows = document.querySelectorAll(".ie-box");
+        for (let i = 0; i < ieWindows.length; i++) {
+            const e = ieWindows[i];
+            maxedState[i] = false;
+            if (e.style.zIndex) {
+                e.style.zIndex = 3;
+            }
+            e.addEventListener("click", function () {
+                for (let i = 0; i < ieWindows.length; i++) {
+                    const e = ieWindows[i];
+                    if (e.style.zIndex) {
+                        e.style.zIndex = 3;
+                    }
+                }
+                this.style.zIndex = 4;
+            })
+            if (!maxiEventListened[i]) {
+                maxiEventListened[i] = true;
+                maxiButton(i, e);
+                // iFrame refresh
+                document.getElementsByClassName("refresh-btn")[i].addEventListener("click", function () {
+                    document.getElementsByClassName('ie-iframe')[i].src = document.getElementsByClassName('ie-iframe')[i].src;
+                })
+            }
+
+        }
     }
 
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        elementOutside(document.getElementById("ie-box"));
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        // stop moving when mouse button is released:
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
-
-const resizeObserver = new ResizeObserver(entires => {
-    elementOutside(document.getElementById("ie-box"));
-});
-resizeObserver.observe(document.getElementById("ie-box"));
-
-//Maximise Button
-let maxedState;
-let oldHeight;
-let oldWidth;
-let oldLeft;
-let oldTop;
-document.getElementById("maxi-btn").addEventListener("click", function () {
-    let ieBox = document.getElementById("ie-box");
-    let maxiBtn = document.getElementById("maxi-btn");
-    if (!maxedState) {
-        oldHeight = ieBox.offsetHeight;
-        oldWidth = ieBox.offsetWidth;
-        oldLeft = ieBox.offsetLeft;
-        console.log();
-        oldTop = ieBox.offsetTop;
-        console.log();
-        ieBox.style.width = "100%";
-        ieBox.style.height = window.innerHeight - 40 + "px";
-        ieBox.style.top = (ieBox.offsetHeight * 0.5) + "px";
-        ieBox.style.left = (ieBox.offsetWidth * 0.5) + "px"
-        maxiBtn.style.backgroundImage = "url(images/unmax.png)"
-    } else {
-        ieBox.style.width = oldWidth + "px";
-        ieBox.style.height = oldHeight + "px";
-        ieBox.style.left = oldLeft + "px";
-        ieBox.style.top = oldTop + "px";
-        maxiBtn.style.backgroundImage = "url(images/max.png)"
-    }
-    maxedState = !maxedState;
+    openExplorer();
+    const ieWindowObserver = new MutationObserver(function (mutationRecords) {
+        windowAdd();
+    });
+    ieWindowObserver.observe(document.getElementsByTagName("main")[0], { childList: true });
 })
-
-// iFrame refresh
-document.getElementById("refresh-btn").addEventListener("click", function () {
-    document.getElementById('ie-iframe').src = document.getElementById('ie-iframe').src;
-})
-
-
 
 //Function for BSOD
 function shutDown() {
