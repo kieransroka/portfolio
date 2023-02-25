@@ -4,30 +4,58 @@ let oldHeight = [];
 let oldWidth = [];
 let oldLeft = [];
 let oldTop = [];
-let maxiEventListened = [];
+let ieBtnsEventListened = [];
+let maxiBtn = [];
 //Maximise ie window function
-function maxiButton(i, e) {
+function maxiButton(i, e, maxi, ieWindows) {
+    maxedState[i] = false;
+    oldHeight[i] = e.offsetHeight;
+    oldWidth[i] = e.offsetWidth;
+    oldLeft[i] = e.offsetLeft;
+    oldTop[i] = e.offsetTop;
     document.getElementsByClassName("maxi-btn")[i].addEventListener("click", function () {
-        let maxiBtn = document.getElementsByClassName("maxi-btn")[i];
-        if (!maxedState[i]) {
-            oldHeight[i] = e.offsetHeight;
-            oldWidth[i] = e.offsetWidth;
-            oldLeft[i] = e.offsetLeft;
-            oldTop[i] = e.offsetTop;
+        let window = e.getAttribute("window");
+        if (!maxedState[window]) {
+            oldHeight[window] = e.offsetHeight;
+            oldWidth[window] = e.offsetWidth;
+            oldLeft[window] = e.offsetLeft;
+            oldTop[window] = e.offsetTop;
             e.style.width = "100%";
             e.style.height = window.innerHeight - 40 + "px";
             e.style.top = (e.offsetHeight * 0.5) + "px";
             e.style.left = (e.offsetWidth * 0.5) + "px"
-            maxiBtn.style.backgroundImage = "url(images/unmax.png)"
-        } else if (maxedState[i]) {
-            e.style.width = oldWidth[i] + "px";
-            e.style.height = oldHeight[i] + "px";
-            e.style.left = oldLeft[i] + "px";
-            e.style.top = oldTop[i] + "px";
-            maxiBtn.style.backgroundImage = "url(images/max.png)"
+            maxi[window].style.backgroundImage = "url(images/unmax.png)"
+        } else if (maxedState[window]) {
+            e.style.width = oldWidth[window] + "px";
+            e.style.height = oldHeight[window] + "px";
+            e.style.left = oldLeft[window] + "px";
+            e.style.top = oldTop[window] + "px";
+            maxi[window].style.backgroundImage = "url(images/max.png)"
         }
-        maxedState[i] = !maxedState[i];
+        maxedState[window] = !maxedState[window];
     })
+    document.getElementById("test").addEventListener("click", function () {
+        console.log(maxedState, oldHeight, oldWidth, oldLeft, oldTop, ieBtnsEventListened, maxi, ieWindows, i, e);
+    })
+
+}
+
+//Close ie window function
+function closeButton(e, maxi) {
+    e.parentElement.remove();
+    let window = e.getAttribute("window");
+    maxedState.splice(window, 1);
+    ieBtnsEventListened.splice(window, 1);
+    maxi.splice(window, 1);
+    oldHeight.splice(window, 1);
+    oldWidth.splice(window, 1);
+    oldLeft.splice(window, 1);
+    oldTop.splice(window, 1);
+    let ieWindows = document.getElementsByClassName("ie-box");
+    for (let i = 0; i < ieWindows.length; i++) {
+        let e = ieWindows[i];
+        e.setAttribute("window", i);
+    }
 }
 //Ie-box window create
 document.getElementById("button").addEventListener("click", function () {
@@ -114,37 +142,46 @@ document.getElementById("button").addEventListener("click", function () {
         resizeObserver.observe(newDiv.firstChild);
     }
     function windowAdd() {
-        const ieWindows = document.querySelectorAll(".ie-box");
+        let ieWindows = document.getElementsByClassName("ie-box");
         for (let i = 0; i < ieWindows.length; i++) {
-            const e = ieWindows[i];
-            maxedState[i] = false;
-            if (e.style.zIndex) {
-                e.style.zIndex = 3;
-            }
+            let e = ieWindows[i];
+            e.setAttribute("window", i);
             e.addEventListener("click", function () {
                 for (let i = 0; i < ieWindows.length; i++) {
-                    const e = ieWindows[i];
+                    let e = ieWindows[i];
                     if (e.style.zIndex) {
                         e.style.zIndex = 3;
                     }
                 }
-                this.style.zIndex = 4;
+                e.style.zIndex = 4;
             })
-            if (!maxiEventListened[i]) {
-                maxiEventListened[i] = true;
-                maxiButton(i, e);
+            if (!ieBtnsEventListened[i]) {
+                ieBtnsEventListened[i] = true;
+                maxiBtn[i] = document.getElementsByClassName("maxi-btn")[i];
+                maxiButton(i, e, maxiBtn, ieWindows);
+                document.getElementsByClassName("close-btn")[i].addEventListener("click", function () {
+                    closeButton(e, maxiBtn);
+                })
                 // iFrame refresh
-                document.getElementsByClassName("refresh-btn")[i].addEventListener("click", function () {
-                    document.getElementsByClassName('ie-iframe')[i].src = document.getElementsByClassName('ie-iframe')[i].src;
+                document.querySelectorAll(".refresh-btn")[i].addEventListener("click", function () {
+                    document.querySelectorAll('.ie-iframe')[i].src = document.querySelectorAll('.ie-iframe')[i].src;
                 })
             }
-
         }
     }
-
     openExplorer();
     const ieWindowObserver = new MutationObserver(function (mutationRecords) {
-        windowAdd();
+        let isNew = false;
+        for (let i = 0; i < mutationRecords.length; i++) {
+            let mutation = mutationRecords[i];
+            if (mutation.type === 'childList' && mutation.addedNodes.length) {
+                isNew = true;
+                break
+            }
+        }
+        if (isNew) {
+            windowAdd();
+        }
     });
     ieWindowObserver.observe(document.getElementsByTagName("main")[0], { childList: true });
 })
