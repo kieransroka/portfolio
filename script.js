@@ -1,4 +1,4 @@
-// For Maximise Button
+// For Window Buttons
 let maxedState = [];
 let oldHeight = [];
 let oldWidth = [];
@@ -6,6 +6,7 @@ let oldLeft = [];
 let oldTop = [];
 let ieBtnsEventListened = [];
 let maxiBtn = [];
+
 //Maximise ie window function
 function maxiButton(i, e, maxi, ieWindows) {
     maxedState[i] = false;
@@ -14,25 +15,25 @@ function maxiButton(i, e, maxi, ieWindows) {
     oldLeft[i] = e.offsetLeft;
     oldTop[i] = e.offsetTop;
     document.getElementsByClassName("maxi-btn")[i].addEventListener("click", function () {
-        let window = e.getAttribute("window");
-        if (!maxedState[window]) {
-            oldHeight[window] = e.offsetHeight;
-            oldWidth[window] = e.offsetWidth;
-            oldLeft[window] = e.offsetLeft;
-            oldTop[window] = e.offsetTop;
+        let ieWindow = e.getAttribute("window");
+        if (!maxedState[ieWindow]) {
+            oldHeight[ieWindow] = e.offsetHeight;
+            oldWidth[ieWindow] = e.offsetWidth;
+            oldLeft[ieWindow] = e.offsetLeft;
+            oldTop[ieWindow] = e.offsetTop;
             e.style.width = "100%";
             e.style.height = window.innerHeight - 40 + "px";
             e.style.top = (e.offsetHeight * 0.5) + "px";
             e.style.left = (e.offsetWidth * 0.5) + "px"
-            maxi[window].style.backgroundImage = "url(images/unmax.png)"
-        } else if (maxedState[window]) {
-            e.style.width = oldWidth[window] + "px";
-            e.style.height = oldHeight[window] + "px";
-            e.style.left = oldLeft[window] + "px";
-            e.style.top = oldTop[window] + "px";
-            maxi[window].style.backgroundImage = "url(images/max.png)"
+            maxi[ieWindow].style.backgroundImage = "url(images/unmax.png)"
+        } else if (maxedState[ieWindow]) {
+            e.style.width = oldWidth[ieWindow] + "px";
+            e.style.height = oldHeight[ieWindow] + "px";
+            e.style.left = oldLeft[ieWindow] + "px";
+            e.style.top = oldTop[ieWindow] + "px";
+            maxi[ieWindow].style.backgroundImage = "url(images/max.png)"
         }
-        maxedState[window] = !maxedState[window];
+        maxedState[ieWindow] = !maxedState[ieWindow];
     })
     document.getElementById("test").addEventListener("click", function () {
         console.log(maxedState, oldHeight, oldWidth, oldLeft, oldTop, ieBtnsEventListened, maxi, ieWindows, i, e);
@@ -41,22 +42,41 @@ function maxiButton(i, e, maxi, ieWindows) {
 }
 
 //Close ie window function
-function closeButton(e, maxi) {
-    e.parentElement.remove();
-    let window = e.getAttribute("window");
-    maxedState.splice(window, 1);
-    ieBtnsEventListened.splice(window, 1);
-    maxi.splice(window, 1);
-    oldHeight.splice(window, 1);
-    oldWidth.splice(window, 1);
-    oldLeft.splice(window, 1);
-    oldTop.splice(window, 1);
-    let ieWindows = document.getElementsByClassName("ie-box");
-    for (let i = 0; i < ieWindows.length; i++) {
-        let e = ieWindows[i];
-        e.setAttribute("window", i);
-    }
+function closeButton(i, e, maxi) {
+    document.getElementsByClassName("close-btn")[i].addEventListener("click", function () {
+        e.parentElement.remove();
+        let ieWindow = e.getAttribute("window");
+        maxedState.splice(ieWindow, 1);
+        ieBtnsEventListened.splice(ieWindow, 1);
+        maxi.splice(ieWindow, 1);
+        oldHeight.splice(ieWindow, 1);
+        oldWidth.splice(ieWindow, 1);
+        oldLeft.splice(ieWindow, 1);
+        oldTop.splice(ieWindow, 1);
+        let ieWindows = document.getElementsByClassName("ie-box");
+        for (let i = 0; i < ieWindows.length; i++) {
+            let e = ieWindows[i];
+            e.setAttribute("window", i);
+        }
+    })
 }
+
+//iFrame refresh
+function refreshButton(i, e) {
+    document.getElementsByClassName("refresh-btn")[i].addEventListener("click", function () {
+        let ieWindow = e.getAttribute("window");
+        document.getElementsByClassName('ie-iframe')[ieWindow].src = document.getElementsByClassName('ie-iframe')[ieWindow].src;
+    })
+}
+
+//iFrame back 
+function backButton(i, e) {
+    document.getElementsByClassName("back-btn")[i].addEventListener("click", function () {
+        let ieWindow = e.getAttribute("window");
+        document.getElementsByClassName('ie-iframe')[ieWindow].contentWindow.history.back();
+    })
+}
+
 //Ie-box window create
 document.getElementById("button").addEventListener("click", function () {
     // For making new div
@@ -141,11 +161,15 @@ document.getElementById("button").addEventListener("click", function () {
         });
         resizeObserver.observe(newDiv.firstChild);
     }
+    //Runs when windows are added
     function windowAdd() {
+        //Gets all windows
         let ieWindows = document.getElementsByClassName("ie-box");
+        //Loops through windows
         for (let i = 0; i < ieWindows.length; i++) {
             let e = ieWindows[i];
             e.setAttribute("window", i);
+            //Brings clicked window to front
             e.addEventListener("click", function () {
                 for (let i = 0; i < ieWindows.length; i++) {
                     let e = ieWindows[i];
@@ -155,17 +179,18 @@ document.getElementById("button").addEventListener("click", function () {
                 }
                 e.style.zIndex = 4;
             })
+            //Adds event listener to window buttons - Added if statement so doesn't double add
             if (!ieBtnsEventListened[i]) {
                 ieBtnsEventListened[i] = true;
+                //For maximise
                 maxiBtn[i] = document.getElementsByClassName("maxi-btn")[i];
                 maxiButton(i, e, maxiBtn, ieWindows);
-                document.getElementsByClassName("close-btn")[i].addEventListener("click", function () {
-                    closeButton(e, maxiBtn);
-                })
-                // iFrame refresh
-                document.querySelectorAll(".refresh-btn")[i].addEventListener("click", function () {
-                    document.querySelectorAll('.ie-iframe')[i].src = document.querySelectorAll('.ie-iframe')[i].src;
-                })
+                //For closing
+                closeButton(i, e, maxiBtn);
+                //For Refresh
+                refreshButton(i, e);
+                //For back
+                backButton(i, e)
             }
         }
     }
