@@ -71,10 +71,50 @@ function refreshButton(i, e) {
 
 //iFrame back 
 function backButton(i, e) {
+    let ieWindow = e.getAttribute("window");
+    //Gets iframe
+    let frame = document.getElementsByClassName('ie-iframe')[ieWindow]
+    //Event listener for button
     document.getElementsByClassName("back-btn")[i].addEventListener("click", function () {
-        let ieWindow = e.getAttribute("window");
-        document.getElementsByClassName('ie-iframe')[ieWindow].contentWindow.history.back();
+        frame.contentWindow.postMessage(locationReq, "*");
     })
+    //To be passed to iframe
+    let locationReq = 'locationRequest';
+    //Function to prevent going back on first page
+    function ieBack(data) {
+        let frameLocation = data.data;
+        console.log(frameLocation);
+        if (frameLocation !== 'https://reduviid-expiration.000webhostapp.com/index.php') {
+            let historyReq = "windowHistory"
+            frame.contentWindow.postMessage(historyReq, "*");
+        }
+    }
+    //Event listener for communication from iframe
+    window.addEventListener('message', ieBack, false);
+}
+
+//iFrame forward
+function fwdButton(i, e) {
+    let ieWindow = e.getAttribute("window");
+    //Gets iframe
+    let frame = document.getElementsByClassName('ie-iframe')[ieWindow]
+    //Event listener for button
+    document.getElementsByClassName("forward-btn")[i].addEventListener("click", function () {
+        frame.contentWindow.postMessage(locationReq, "*");
+    })
+    //To be passed to iframe
+    let locationReq = 'locationRequest';
+    //Function to prevent going back on first page
+    function ieBack(data) {
+        let frameLocation = data.data;
+        console.log(frameLocation);
+        if (frameLocation !== 'https://reduviid-expiration.000webhostapp.com/index.php') {
+            let historyReq = "windowHistory"
+            frame.contentWindow.postMessage(historyReq, "*");
+        }
+    }
+    //Event listener for communication from iframe
+    window.addEventListener('message', ieBack, false);
 }
 
 //Ie-box window create
