@@ -74,12 +74,12 @@ function backButton(i, e) {
     let ieWindow = e.getAttribute("window");
     //Gets iframe
     let frame = document.getElementsByClassName('ie-iframe')[ieWindow]
+    //To be passed to iframe
+    let locationReq = 'locationRequest';
     //Event listener for button
     document.getElementsByClassName("back-btn")[i].addEventListener("click", function () {
         frame.contentWindow.postMessage(locationReq, "*");
     })
-    //To be passed to iframe
-    let locationReq = 'locationRequest';
     //Function to prevent going back on first page
     function ieBack(data) {
         let frameLocation = data.data;
@@ -97,24 +97,12 @@ function backButton(i, e) {
 function fwdButton(i, e) {
     let ieWindow = e.getAttribute("window");
     //Gets iframe
-    let frame = document.getElementsByClassName('ie-iframe')[ieWindow]
+    let frame = document.getElementsByClassName('ie-iframe')[ieWindow];
+    let forward = "windowFwd";
     //Event listener for button
     document.getElementsByClassName("forward-btn")[i].addEventListener("click", function () {
-        frame.contentWindow.postMessage(locationReq, "*");
+        frame.contentWindow.postMessage(forward, "*");
     })
-    //To be passed to iframe
-    let locationReq = 'locationRequest';
-    //Function to prevent going back on first page
-    function ieBack(data) {
-        let frameLocation = data.data;
-        console.log(frameLocation);
-        if (frameLocation !== 'https://reduviid-expiration.000webhostapp.com/index.php') {
-            let historyReq = "windowHistory"
-            frame.contentWindow.postMessage(historyReq, "*");
-        }
-    }
-    //Event listener for communication from iframe
-    window.addEventListener('message', ieBack, false);
 }
 
 //Ie-box window create
@@ -230,8 +218,11 @@ document.getElementById("button").addEventListener("click", function () {
                 //For Refresh
                 refreshButton(i, e);
                 //For back
-                backButton(i, e)
+                backButton(i, e);
+                //For forward
+                fwdButton(i, e);
             }
+
         }
     }
     openExplorer();
