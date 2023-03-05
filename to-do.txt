@@ -1,1 +1,4 @@
-Try to get back button working, gl
+1. Start minimise button
+3. Add dropdowns for file buttons
+4. Add start button
+5. Make iframe dynamic

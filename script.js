@@ -7,6 +7,39 @@ let oldTop = [];
 let ieBtnsEventListened = [];
 let maxiBtn = [];
 
+//Focus function
+function giveFocus(ieWindows, e) {
+    let ieWindow = e.getAttribute("window");
+    //Brings clicked window to front
+    e.addEventListener("click", function () {
+        for (let i = 0; i < ieWindows.length; i++) {
+            let e = ieWindows[i];
+            e.style.zIndex = 3;
+        }
+        e.style.zIndex = 4;
+    })
+    //Gets iframe
+    let frame = document.getElementsByClassName('ie-iframe')[ieWindow];
+    let windowFocus = "windowFocus";
+    //Listens for iframe loading to trigger postmessage
+    frame.addEventListener("load", function () {
+        frame.contentWindow.postMessage(windowFocus, "*");
+    })
+    //Add event listener for message from iframe
+    window.addEventListener('message', iframeFront, false);
+    //function run after message recieved
+    function iframeFront(data) {
+        //Checks message has come from correct window and correct function
+        if (frame.contentWindow === event.source && data.data === "windowFocus") {
+            for (let i = 0; i < ieWindows.length; i++) {
+                let e = ieWindows[i];
+                e.style.zIndex = 3;
+            }
+            e.style.zIndex = 4;
+        }
+    }
+}
+
 //Maximise ie window function
 function maxiButton(i, e, maxi, ieWindows) {
     maxedState[i] = false;
@@ -82,11 +115,12 @@ function backButton(i, e) {
     })
     //Function to prevent going back on first page
     function ieBack(data) {
-        let frameLocation = data.data;
-        console.log(frameLocation);
-        if (frameLocation !== 'https://reduviid-expiration.000webhostapp.com/index.php') {
-            let historyReq = "windowHistory"
-            frame.contentWindow.postMessage(historyReq, "*");
+        if (data.data !== "windowFocus") {
+            let frameLocation = data.data;
+            if (frameLocation !== 'https://reduviid-expiration.000webhostapp.com/index.php') {
+                let historyReq = "windowHistory"
+                frame.contentWindow.postMessage(historyReq, "*");
+            }
         }
     }
     //Event listener for communication from iframe
@@ -197,19 +231,11 @@ document.getElementById("button").addEventListener("click", function () {
         for (let i = 0; i < ieWindows.length; i++) {
             let e = ieWindows[i];
             e.setAttribute("window", i);
-            //Brings clicked window to front
-            e.addEventListener("click", function () {
-                for (let i = 0; i < ieWindows.length; i++) {
-                    let e = ieWindows[i];
-                    if (e.style.zIndex) {
-                        e.style.zIndex = 3;
-                    }
-                }
-                e.style.zIndex = 4;
-            })
             //Adds event listener to window buttons - Added if statement so doesn't double add
             if (!ieBtnsEventListened[i]) {
                 ieBtnsEventListened[i] = true;
+                //To give focus when clicked
+                giveFocus(ieWindows, e);
                 //For maximise
                 maxiBtn[i] = document.getElementsByClassName("maxi-btn")[i];
                 maxiButton(i, e, maxiBtn, ieWindows);
