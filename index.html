@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Music of the past in the future!">
     <meta name="author" content="Kieran Sroka">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <title>Music Online</title>
 </head>
@@ -77,14 +77,14 @@
 
     </main>
     <!-- Start of footer -->
-    <footer id="myFooter" class="container-fluid pe-0">
-        <div class="row h-100 w-100 me-0">
-            <div class="col-1 d-flex align-items-center ps-1 pe-0 h-100">
+    <footer id="myFooter" class="container-fluid pe-0 ps-0">
+        <div class="row h-100 w-100 me-0 ms-0 pe-1">
+            <div class="col d-flex align-items-center ps-1 pe-0 h-100">
                 <!-- Dropup button -->
                 <div class="btn-group dropup">
                     <button type="button" id="start" class="ps-1 pt-0 pe-0 fw-bolder lh-sm text-start"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img id="footer-logo" class="me-1 pb-1" src="images/logo.png" alt="Music Online Logo">
+                        <img class="footer-logo me-1 pb-1" src="images/logo.png" alt="Music Online Logo">
                         <span class="">Start</span>
                     </button>
                     <div class="dropdown-menu text-center">
@@ -107,24 +107,28 @@
                 <a href="#"><img src="images/twitter.png" class="foot-bars" alt="Link to music online twitter"></a>
                 <img src="images/otherlittlebar.png " class="foot-bars ps-1" alt="">
                 <img src="images/littlebar.png" class="foot-bars" alt="">
+                <!-- Taskbar Windows -->
+                <div class="row ps-3 flex-nowrap" id="footer-windows">
+                </div>
             </div>
-            <div class="col-10">
-            </div>
-            <div class="col-1 d-flex flex-row justify-content-end align-items-center h-100 pe-0">
-                <!-- Time on bottom right -->
+            <div class="col-2 d-flex flex-row justify-content-end align-items-center h-100 ps-0 pe-0">
                 <img src="images/otherlittlebar.png" class="foot-bars me-1" alt="" id="foot-end-bars">
-                <p class="mb-0 ps-1 pe-2" id="time"></p>
+                <!-- Time on bottom right -->
+                <div id="time-contain" class="d-flex align-items-center">
+                    <img src='images/volume.png' id='volume' alt=''>
+                    <p class="mb-0 ps-1 pe-2 d-inline fw-bold" id="time"></p>
+                </div>
             </div>
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
         </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
-        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous">
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 

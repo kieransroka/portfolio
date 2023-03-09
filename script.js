@@ -7,16 +7,23 @@ let oldTop = [];
 let ieBtnsEventListened = [];
 let maxiBtn = [];
 
+function indexSort(e, ieWindows) {
+    for (let i = 0; i < ieWindows.length; i++) {
+        let e = ieWindows[i];
+        e.classList.remove("front");
+        e.classList.add("back");
+    }
+    e.classList.remove("back");
+    e.classList.add("front");
+}
+
 //Focus function
-function giveFocus(ieWindows, e) {
+function giveFocus(i, e, ieWindows,) {
     let ieWindow = e.getAttribute("window");
     //Brings clicked window to front
     e.addEventListener("click", function () {
-        for (let i = 0; i < ieWindows.length; i++) {
-            let e = ieWindows[i];
-            e.style.zIndex = 3;
-        }
-        e.style.zIndex = 4;
+        indexSort(e, ieWindows)
+        selectTask(i)
     })
     //Gets iframe
     let frame = document.getElementsByClassName('ie-iframe')[ieWindow];
@@ -30,12 +37,9 @@ function giveFocus(ieWindows, e) {
     //function run after message recieved
     function iframeFront(data) {
         //Checks message has come from correct window and correct function
-        if (frame.contentWindow === event.source && data.data === "windowFocus") {
-            for (let i = 0; i < ieWindows.length; i++) {
-                let e = ieWindows[i];
-                e.style.zIndex = 3;
-            }
-            e.style.zIndex = 4;
+        if (frame.contentWindow === data.source && data.data === "windowFocus") {
+            indexSort(e, ieWindows);
+            selectTask(i)
         }
     }
 }
@@ -55,7 +59,7 @@ function maxiButton(i, e, maxi, ieWindows) {
             oldLeft[ieWindow] = e.offsetLeft;
             oldTop[ieWindow] = e.offsetTop;
             e.style.width = "100%";
-            e.style.height = window.innerHeight - 40 + "px";
+            e.style.height = window.innerHeight - 37 + "px";
             e.style.top = (e.offsetHeight * 0.5) + "px";
             e.style.left = (e.offsetWidth * 0.5) + "px"
             maxi[ieWindow].style.backgroundImage = "url(images/unmax.png)"
@@ -71,14 +75,43 @@ function maxiButton(i, e, maxi, ieWindows) {
     document.getElementById("test").addEventListener("click", function () {
         console.log(maxedState, oldHeight, oldWidth, oldLeft, oldTop, ieBtnsEventListened, maxi, ieWindows, i, e);
     })
-
 }
 
 //Close ie window function
 function closeButton(i, e, maxi) {
     document.getElementsByClassName("close-btn")[i].addEventListener("click", function () {
-        e.parentElement.remove();
+        let ieWindows = document.getElementsByClassName("ie-box");
         let ieWindow = e.getAttribute("window");
+        let taskbarWindows = document.getElementsByClassName("taskbar-window");
+        let taskbarWindow = document.getElementsByClassName("taskbar-window")[ieWindow];
+
+        taskbarWindow.style.visibility = "hidden";
+        taskbarWindow.classList.add("removing");
+
+        e.parentElement.remove();
+        for (let i = 0; i < ieWindows.length; i++) {
+            let e = ieWindows[i];
+            e.setAttribute("window", i);
+        }
+
+        if (taskbarWindows.length > 1) {
+            let taskbarMove = document.getElementsByClassName("taskbar-window");
+            for (let i = 0; i < taskbarWindows.length; i++) {
+                taskbarMove[i].classList.add("moving");
+            }
+            taskbarMove[taskbarWindows.length - 1].addEventListener("animationend", function removingTask() {
+                taskbarWindow.remove();
+                for (let i = 0; i < taskbarWindows.length; i++) {
+                    let orderTaskbar = document.getElementsByClassName("taskbar-window")[i];
+                    orderTaskbar.setAttribute("window", i)
+                    taskbarMove[i].classList.remove("moving");
+                }
+                selectTask();
+            })
+        } else {
+            taskbarWindow.remove();
+            selectTask();
+        }
         maxedState.splice(ieWindow, 1);
         ieBtnsEventListened.splice(ieWindow, 1);
         maxi.splice(ieWindow, 1);
@@ -86,11 +119,21 @@ function closeButton(i, e, maxi) {
         oldWidth.splice(ieWindow, 1);
         oldLeft.splice(ieWindow, 1);
         oldTop.splice(ieWindow, 1);
-        let ieWindows = document.getElementsByClassName("ie-box");
-        for (let i = 0; i < ieWindows.length; i++) {
-            let e = ieWindows[i];
-            e.setAttribute("window", i);
-        }
+    })
+}
+
+//Minimise function
+function minimise(i, e) {
+    document.getElementsByClassName("mini-btn")[i].addEventListener("click", function () {
+        let ieWindow = e.getAttribute("window");
+        oldLeft[ieWindow] = e.offsetLeft;
+        oldTop[ieWindow] = e.offsetTop;
+        e.classList.add("minimise");
+        e.addEventListener("animationend", function () {
+            if (e.classList.contains("minimise")) {
+                e.style.display = "none";
+            }
+        })
     })
 }
 
@@ -139,6 +182,51 @@ function fwdButton(i, e) {
     })
 }
 
+function selectTask(i) {
+    let taskbarBtns = document.getElementsByClassName("taskbar-btn");
+    let e = taskbarBtns[i];
+    let ieWindows = document.getElementsByClassName("ie-box");
+    function indent() {
+        for (let i = 0; i < taskbarBtns.length; i++) {
+            let e = taskbarBtns[i];
+            if (e.classList.contains("task-selected")) {
+                e.classList.remove("task-selected");
+            }
+        }
+        if (ieWindows.length === 0) {
+            return;
+        } else if (ieWindows.length < 2) {
+            taskbarBtns[0].classList.add("task-selected");
+        } else if (e === undefined) {
+            e = taskbarBtns[taskbarBtns.length - 1];
+            e.classList.add("task-selected");
+        } else {
+            e.classList.add("task-selected");
+        }
+    }
+    indent();
+    if (e !== undefined) {
+        e.addEventListener("click", function () {
+            indent();
+            let taskWindow = e.parentElement.getAttribute("window");
+            let ieWindow = ieWindows[taskWindow];
+            indexSort(ieWindow, ieWindows);
+            if (ieWindow.classList.contains("minimise")) {
+                ieWindow.classList.remove("minimise");
+                ieWindow.style.display = "block";
+                ieWindow.style.left = oldLeft[taskWindow] + "px";
+                ieWindow.style.top = oldTop[taskWindow] + "px";
+                ieWindow.classList.add("reopen");
+                ieWindow.addEventListener("animationend", function () {
+                    ieWindow.classList.remove("reopen");
+                })
+            }
+        })
+    }
+
+
+}
+
 //Ie-box window create
 document.getElementById("button").addEventListener("click", function () {
     // For making new div
@@ -155,7 +243,6 @@ document.getElementById("button").addEventListener("click", function () {
         let header = newDiv.querySelector(".ie-box-header");
         // Drag IE Windows
         dragElement(newDiv.firstChild);
-
         //Checks if ie-box goes outside view
         function elementOutside(elmnt) {
             if (elmnt.getBoundingClientRect().top <= 0) {
@@ -234,19 +321,32 @@ document.getElementById("button").addEventListener("click", function () {
             //Adds event listener to window buttons - Added if statement so doesn't double add
             if (!ieBtnsEventListened[i]) {
                 ieBtnsEventListened[i] = true;
+                //Adds taskbar div
+                const newTaskbar = document.createElement("div");
+                const newTaskBtn = document.createElement("button");
+                newTaskbar.classList.add("taskbar-window", "col", "ps-0", "pe-1");
+                newTaskbar.setAttribute("window", i);
+                newTaskBtn.classList.add("taskbar-btn", "ps-1", "pt-0", "fw-bolder", "lh-sm", "text-start");
+                newTaskBtn.innerHTML = "<img src='images/logo.png' alt='' class='footer-logo me-1 pb-1'> eRevive"
+                document.getElementById("footer-windows").appendChild(newTaskbar);
+                newTaskbar.appendChild(newTaskBtn);
                 //To give focus when clicked
-                giveFocus(ieWindows, e);
+                giveFocus(i, e, ieWindows);
                 //For maximise
                 maxiBtn[i] = document.getElementsByClassName("maxi-btn")[i];
                 maxiButton(i, e, maxiBtn, ieWindows);
                 //For closing
                 closeButton(i, e, maxiBtn);
+                //For Minimise
+                minimise(i, e);
                 //For Refresh
                 refreshButton(i, e);
                 //For back
                 backButton(i, e);
                 //For forward
                 fwdButton(i, e);
+                //For taskbar select
+                selectTask(i);
             }
 
         }
@@ -316,7 +416,7 @@ function time() {
         hour: "numeric",
         minute: "numeric"
     });
-    document.getElementById("time").innerHTML = "<img src='images/volume.png' id='volume' class='pb-1'>" + currentTime;
+    document.getElementById("time").innerHTML = currentTime;
 }
 window.setInterval(function () {
     time()

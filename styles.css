@@ -181,6 +181,7 @@ nav {
     height: 750px;
     max-width: 100%;
     max-height: 100%;
+    min-width: 408px;
     transform: translate(-50%, -50%);
     z-index: 4;
     border: 2px outset #e5e5e5;
@@ -188,6 +189,15 @@ nav {
     border-bottom: 1.5px solid #4b4b4b;
     resize: both;
     overflow: hidden;
+}
+
+/* Front & back for ie-box */
+.front {
+    z-index: 4;
+}
+
+.back {
+    z-index: 3;
 }
 
 .ie-box-border {
@@ -227,6 +237,42 @@ nav {
     background-image: url(images/min.png);
     background-size: cover;
     border: none;
+}
+
+.minimise {
+    animation: minimise 160ms ease-in-out forwards;
+}
+
+@keyframes minimise {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 100%;
+        transform-origin: 50% 100%;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0%;
+        transform-origin: 50% 100%;
+    }
+}
+
+.reopen {
+    animation: reopen 160ms ease-in-out forwards;
+}
+
+@keyframes reopen {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0%;
+        transform-origin: 50% 100%;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 100%;
+        transform-origin: 50% 100%;
+    }
 }
 
 .maxi-btn {
@@ -310,7 +356,6 @@ ul {
 
 /* Long address bar on address bar */
 .address-bar {
-    min-width: 75%;
     height: 21px;
     background-color: #ffffff;
     box-shadow: 1px 1px 1px 0.1px #8b8b8bcc inset, -1px -1px #eaeaea inset, 2px 2px #1a1a1a inset, -2px 0px #101010 inset;
@@ -335,7 +380,7 @@ ul {
 }
 
 .address-go {
-    max-width: fit-content;
+    width: 69px;
     border-right: 1.5px solid #8d8d8d;
 }
 
@@ -345,7 +390,7 @@ ul {
 
 .address-links {
     border-left: 1.5px solid #ededed;
-    max-width: fit-content;
+    width: 65px;
 }
 
 /* Separtor on address bar */
@@ -425,7 +470,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 40px;
+    height: 37px;
     background-color: #C4C4C4;
     border-top: #f5edf3 solid 3px;
     overflow: hidden;
@@ -466,7 +511,7 @@ footer {
 }
 
 /* For logo on start button */
-#footer-logo {
+.footer-logo {
     width: auto;
     height: 23px;
 }
@@ -474,6 +519,41 @@ footer {
 /* For small bars on footer */
 .foot-bars {
     height: 25px;
+}
+
+.taskbar-window {
+    position: relative;
+    top: 0;
+    right: 0;
+    max-width: 150px;
+}
+
+.taskbar-btn {
+    height: 25px;
+    width: 100%;
+    font-family: 'LeviWindows';
+    font-size: 15px;
+    background: #C0C0C0;
+    border: 3px outset #dadada;
+}
+
+.task-selected {
+    background: #C2C2C2;
+    border: 3px inset #f0f0f0;
+}
+
+.moving {
+    animation: moveLeft 110ms ease-in-out;
+}
+
+@keyframes moveLeft {
+    0% {
+        right: 0;
+    }
+
+    100% {
+        right: 106px;
+    }
 }
 
 /* For audio bar and manipulating controls */
@@ -501,267 +581,26 @@ audio::-webkit-media-controls-time-remaining-display {
 
 /* For time in bottom right */
 #time {
-    background: #C0C0C0;
-    border: 2.5px inset #ffffff;
     font-family: 'LeviWindows';
     font-size: 11px;
 }
 
+#time-contain {
+    width: max-content;
+    background: #C0C0C0;
+    border: 2.5px inset #ffffff;
+}
+
 /* For volcume icon bottom right */
 #volume {
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
 }
-
-/*To help animation speed speed up on larger screens*/
-@media only screen and (min-width: 1800px) {
-    .jumbotron {
-        animation-duration: 25s;
-    }
-}
-
-/*For main logo to stay in center on certain reoslution*/
-@media only screen and (max-width: 1024px) and (max-height:1366px) {
-    #main-logo {
-        background-size: contain;
-    }
-}
-
-/*For main logo to stay in center*/
-@media only screen and (max-width: 1000px) {
-    #main-logo {
-        background-size: contain;
-    }
-}
-
 
 /*Media query for mobile/when hamburger appears*/
 @media only screen and (max-width: 991.9px) {
-
-    nav,
-    .navbar-brand {
-        padding-top: 0 !important;
+    .ie-box-header {
+        font-size: 13px;
     }
 
-    #logo {
-        animation-name: none;
-        width: 80px;
-    }
-
-    .jumbotron {
-        animation-duration: 50s;
-    }
-
-    #ie-box-header {
-        font-size: 9px;
-    }
-
-    #min-icons {
-        width: 45px;
-    }
-
-    #ie-file {
-        font-size: 9px;
-        height: 20px;
-    }
-
-    #ie-back {
-        font-size: 9px;
-        height: 40px;
-    }
-
-    #ie-address {
-        font-size: 9.5px;
-    }
-
-    .back-icons {
-        width: 20px;
-        height: 20px;
-    }
-
-}
-
-/* Hides links on address bar at smaller viewport */
-@media only screen and (max-width: 788px) {
-    #address-links {
-        display: none;
-    }
-}
-
-/* For address bar and bottom bats fonts issue at small viewport  */
-
-@media only screen and (max-width: 783px) {
-    #address-bar {
-        font-size: 9px;
-    }
-
-    .ie-bottom-bars {
-        font-size: 7px;
-    }
-}
-
-
-@media only screen and (max-width: 783px) {
-    #address-bar {
-        font-size: 9px;
-    }
-
-    .ie-bottom-bars {
-        font-size: 7px;
-    }
-
-    table {
-        font-size: 9px;
-    }
-
-
-    audio::-webkit-media-controls-timeline {
-        min-width: 25% !important;
-    }
-
-    .playBtn {
-        font-size: 6px;
-    }
-}
-
-@media only screen and (max-height: 550px) {
-    #ie-col {
-        height: 50%;
-    }
-}
-
-/* For mobiles */
-@media only screen and (max-width: 500px) {
-    #ie-col {
-        margin-left: 0;
-        padding-left: 25px;
-        padding-right: 0;
-        min-width: 100%;
-    }
-
-    #ie-box,
-    #ie-box-header,
-    #ie-file,
-    #ie-back,
-    #ie-address,
-    #ie-main {
-        max-width: 100%;
-        font-size: 7px;
-    }
-
-    #musicTable {
-        font-size: 8px;
-    }
-
-    #ie-box {
-        min-width: 100%;
-    }
-
-    #address-bar {
-        min-width: 50%;
-        height: 20px;
-    }
-
-    #address-bar-col {
-        height: 15px;
-    }
-
-    #arrow-icon {
-        width: 18px;
-        height: 18px;
-    }
-
-    #spinner {
-        width: 12px;
-        height: 12px;
-    }
-
-    #ie-bottom {
-        max-width: 100%;
-    }
-
-    #ie-bottom-txt {
-        font-size: 6px;
-    }
-}
-
-/* Smaller mobiles */
-@media only screen and (max-width: 376px) {
-    #music-table {
-        font-size: 7px;
-    }
-
-    #address-bar {
-        font-size: 7px;
-    }
-
-    #musicQuery {
-        min-width: 240px;
-    }
-
-    #time {
-        font-size: 9px;
-        min-width: 80px;
-    }
-}
-
-/*Smaller mobiles*/
-@media only screen and (max-width: 360px) {
-
-    #ie-home-icon {
-        display: none;
-    }
-
-    #address-bar {
-        font-size: 6.8px;
-    }
-
-    #ie-bottom-txt {
-        font-size: 5px;
-    }
-
-    #music-table {
-        font-size: 6px;
-    }
-
-    #explore-music-online-img {
-        min-width: 250px;
-    }
-
-    #btm-bar-2 {
-        display: none;
-    }
-
-    #btm-bar-3 {
-        display: none;
-    }
-
-    #time {
-        padding-top: 9px !important;
-        font-size: 7.9px;
-        min-width: 0;
-    }
-
-    #volume {
-        display: none;
-    }
-
-    #start {
-        width: 75px;
-        height: 28px;
-        font-size: 8px;
-        padding-bottom: 25px;
-    }
-
-    audio {
-        padding-top: 5px;
-    }
-
-    .fixed-size {
-        min-width: 210px;
-    }
-
-    .fixed-size-sm {
-        max-width: 100px;
-    }
 }
