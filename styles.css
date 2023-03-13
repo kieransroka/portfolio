@@ -54,82 +54,6 @@ h1 {
     font-family: 'Major Mono Display', monospace;
 }
 
-/*Logo at top left of page*/
-#logo {
-    width: 100px;
-    height: auto;
-    animation-name: logopulse;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-}
-
-/*Nav bar*/
-nav {
-    min-height: 100px;
-    max-height: 100px;
-    background-color: #201C33 !important;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.2rem;
-    color: #94D0FF !important;
-}
-
-/*Pink line on nav next to links*/
-#first-nav-link {
-    border-left: #FF6AD5 solid;
-}
-
-/*Jumbo at top of page*/
-.jumbotron {
-    animation-name: bgscroll;
-    animation-duration: 50s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    background-image: linear-gradient(to right, rgba(8, 8, 8, 0.575), rgba(19, 18, 18, 0.562)), url(images/background.jpg);
-    background-size: cover;
-    height: 104vh;
-}
-
-/*Large logo on jumbo*/
-#main-logo {
-    height: 100%;
-    margin-right: 0px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url(images/logo-center.svg);
-}
-
-/*Animation for pulsing logo top left*/
-@keyframes logopulse {
-    0% {
-        height: 100px
-    }
-
-    50% {
-        height: 120px
-    }
-
-    100% {
-        height: 100px
-    }
-}
-
-/*Animation for moving background on jumbo*/
-@keyframes bgscroll {
-    0% {
-        background-position: 0% 0%;
-    }
-
-    50% {
-        background-position: 100% 100%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
 /*~~~~~~~~~TOP OF MAIN PAGE END~~~~~~~~~*/
 
 /* Bottom page container */
@@ -147,6 +71,24 @@ nav {
     height: 100%;
     opacity: 40%;
     pointer-events: none;
+}
+
+.warning {
+    width: 50%;
+    height: auto;
+    max-width: 550px;
+    font-family: 'LeviWindows';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: #C4C4C4;
+    border: 2px outset #d4d4d4;
+}
+
+.btn-outline {
+    outline: 1.5px solid #000000;
 }
 
 /* Container for icons on left */
@@ -447,8 +389,6 @@ ul {
     border-right: none;
 }
 
-
-
 /* For logo on bottom bar */
 .ie-bottom-logo {
     width: 20px;
@@ -477,7 +417,7 @@ footer {
 }
 
 /* Start button footer */
-#start {
+.start {
     width: 75px;
     height: 25px;
     font-family: 'LeviWindows';
@@ -597,10 +537,14 @@ audio::-webkit-media-controls-time-remaining-display {
     height: 20px;
 }
 
-/*Media query for mobile/when hamburger appears*/
 @media only screen and (max-width: 991.9px) {
     .ie-box-header {
         font-size: 13px;
     }
+}
 
+@media only screen and (max-width: 580px) {
+    .taskbar-window {
+        max-width: 15% !important;
+    }
 }
