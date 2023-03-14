@@ -96,7 +96,7 @@ function closeButton(i, e, maxi) {
 
         if (taskbarWindows.length > 1) {
             let taskbarMove = document.getElementsByClassName("taskbar-window");
-            for (let i = 0; i < taskbarWindows.length; i++) {
+            for (let i = ieWindow; i < taskbarWindows.length; i++) {
                 taskbarMove[i].classList.add("moving");
             }
             taskbarMove[taskbarWindows.length - 1].addEventListener("animationend", function removingTask() {
@@ -126,12 +126,14 @@ function closeButton(i, e, maxi) {
 function minimise(i, e) {
     document.getElementsByClassName("mini-btn")[i].addEventListener("click", function () {
         let ieWindow = e.getAttribute("window");
+        let taskbarBtn = document.getElementsByClassName("taskbar-btn")[ieWindow];
         oldLeft[ieWindow] = e.offsetLeft;
         oldTop[ieWindow] = e.offsetTop;
         e.classList.add("minimise");
         e.addEventListener("animationend", function () {
             if (e.classList.contains("minimise")) {
                 e.style.display = "none";
+                taskbarBtn.classList.remove("task-selected");
             }
         })
     })

@@ -78,13 +78,18 @@ h1 {
     height: auto;
     max-width: 550px;
     font-family: 'LeviWindows';
+    font-size: 14px;
+    font-weight: bold;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
     background-color: #C4C4C4;
-    border: 2px outset #d4d4d4;
+    border: 2px outset #ececec;
+    border-right: 2px solid #3a3a3a;
+    border-bottom: 2px solid #3a3a3a;
+    outline: #c4c4c4 solid 1px;
 }
 
 .btn-outline {
@@ -483,16 +488,16 @@ footer {
 }
 
 .moving {
-    animation: moveLeft 110ms ease-in-out;
+    animation: moveLeft 175ms ease-in-out;
 }
 
 @keyframes moveLeft {
     0% {
-        right: 0;
+        transform: translateX(0%);
     }
 
     100% {
-        right: 106px;
+        transform: translateX(-100%);
     }
 }
 
@@ -545,6 +550,16 @@ audio::-webkit-media-controls-time-remaining-display {
 
 @media only screen and (max-width: 580px) {
     .taskbar-window {
-        max-width: 15% !important;
+        max-width: 35% !important;
+    }
+
+    .taskbar-btn {
+        font-size: 0;
+        margin-bottom: 4px;
+        text-align: center !important;
+    }
+
+    .taskbar-btn>.footer-logo {
+        margin-right: 0 !important;
     }
 }
