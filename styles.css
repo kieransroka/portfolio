@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Poppins&family=Libre+Barcode+128&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 
 @font-face {
     font-family: LeviWindows;
@@ -63,7 +63,7 @@ h1 {
 }
 
 /* Pink overlay */
-#overlay {
+.main-overlay {
     z-index: 2;
     position: absolute;
     background-color: #FF6AD5;
@@ -71,6 +71,17 @@ h1 {
     height: 100%;
     opacity: 40%;
     pointer-events: none;
+}
+
+.bsod {
+    background-image: url(images/bsod2.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 100%;
+    background-color: #0000aa;
+    pointer-events: auto;
+    z-index: 6;
 }
 
 .warning {
@@ -233,7 +244,7 @@ h1 {
 .close-btn {
     height: 14px;
     width: 14px;
-    background-image: url(images/close-2.png);
+    background-image: url(images/close.png);
     background-size: cover;
     border: none;
     margin-left: 2px;
@@ -418,7 +429,19 @@ footer {
     height: 37px;
     background-color: #C4C4C4;
     border-top: #f5edf3 solid 3px;
-    overflow: hidden;
+    z-index: 6;
+}
+
+#footer-overlay {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 100%;
+    height: 37px;
+    background-color: #FF6AD5;
+    opacity: 40%;
+    z-index: 6;
+    pointer-events: none;
 }
 
 /* Start button footer */
@@ -436,23 +459,72 @@ footer {
 .dropdown-menu {
     background-color: #C4C4C4;
     border-radius: 0;
-    border: 3px solid #C4C4C4;
+    border: 3px outset #C4C4C4;
     width: 250px;
     height: 500px;
     font-family: 'LeviWindows';
     font-size: 15px;
+    z-index: 1001;
+    animation: start-menu-up 175ms ease-in-out;
+}
+
+#dropup-overlay {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: calc(100% + 5.5px);
+    height: calc(100% + 6.3px);
+    background-color: #FF6AD5;
+    opacity: 40%;
+    z-index: 6;
+    pointer-events: none;
+}
+
+@keyframes start-menu-up {
+    0% {
+        transform: translate(-4px, 0px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-4px, -33px);
+        opacity: 1;
+    }
+}
+
+.start-closing {
+    animation: start-menu-down 175ms ease-in-out;
+    display: block;
+}
+
+@keyframes start-menu-down {
+    0% {
+        transform: translate(-4px, -500px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-4px, 0px);
+        opacity: 0;
+    }
+}
+
+#dropup-banner {
+    writing-mode: vertical-lr;
+}
+
+#dropup-banner>h3 {
+    transform: rotate(-180deg);
+    background-color: #808080;
+    font-family: 'Roboto', sans-serif;
+    text-indent: 5px;
+    color: #C4C4C4;
 }
 
 /* For icons on dropup menu */
 .menu-icons {
-    width: 45px;
-    height: 45px;
-}
-
-/* For image on dropup menu */
-#vapSun {
-    width: 100px;
-    height: 100px;
+    width: 35px;
+    height: auto;
 }
 
 /* For logo on start button */

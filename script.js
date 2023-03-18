@@ -230,185 +230,194 @@ function selectTask(i) {
 }
 
 //Ie-box window create
-document.getElementById("button").addEventListener("click", function () {
-    let ieWindows = document.getElementsByClassName("ie-box");
-    if (ieWindows.length >= 5) {
-        let audio = new Audio('audio/bsod.mp3');
-        audio.play();
-        const newWarning = document.createElement("div");
-        newWarning.classList.add("warning", "text-center", "pb-3");
-        newWarning.innerHTML =
-            "<div class='ie-box-header row align-items-center ms-0 me-0 mb-3'>" +
-            "<div class='col col-sm-8 d-flex align-items-center ps-1'>" +
-            "<img src='images/logopagebw.png' alt='' class='address-logo me-1'>" +
-            "<p class='mb-0'> Macrohard Interweb Adventurer</p>" +
-            "</div> <div class='col col-sm-4 pe-1 d-flex justify-content-end'>" +
-            "<button class='close-btn warning-x'></button>" +
-            "</div>" +
-            "</div>" +
-            "<p class='ps-2 pe-2'><img src='images/warning.png' alt='' class='ms-1 me-3'>You have exceeded the window limit. Please close a window before continuing.</p>" +
-            "<button class='start lh-sm warning-close btn-outline'>OK</button>";
-        document.getElementsByTagName("main")[0].appendChild(newWarning);
-        document.getElementsByClassName("warning-close")[0].addEventListener("click", function () {
-            newWarning.remove();
-        })
-        document.getElementsByClassName("warning-x")[0].addEventListener("click", function () {
-            newWarning.remove();
-        })
-    } else {
-        // For making new div
-        const newDiv = document.createElement("div");
-        //gets window info from html
-        async function openExplorer() {
-            //gets info from html file
-            const resp = await fetch("ie-box.html");
-            const html = await resp.text();
-            // Creates new div in main
-            document.getElementsByTagName("main")[0].appendChild(newDiv);
-            //Fills div with info from html file
-            newDiv.innerHTML = html;
-            let header = newDiv.querySelector(".ie-box-header");
-            // Drag IE Windows
-            dragElement(newDiv.firstChild);
-            //Checks if ie-box goes outside view
-            function elementOutside(elmnt) {
-                if (elmnt.getBoundingClientRect().top <= 0) {
-                    elmnt.style.top = (elmnt.offsetHeight * 0.5) + "px";
+let launchBtns = document.getElementsByClassName("ie-launch");
+for (let i = 0; i < launchBtns.length; i++) {
+    let launchBtn = launchBtns[i];
+    launchBtn.addEventListener("click", function () {
+        let ieWindows = document.getElementsByClassName("ie-box");
+        if (ieWindows.length >= 5) {
+            let audio = new Audio('audio/bsod.mp3');
+            audio.play();
+            const newWarning = document.createElement("div");
+            newWarning.classList.add("warning", "text-center", "pb-3");
+            newWarning.innerHTML =
+                "<div class='ie-box-header row align-items-center ms-0 me-0 mb-3'>" +
+                "<div class='col col-sm-8 d-flex align-items-center ps-1'>" +
+                "<img src='images/logopagebw.png' alt='' class='address-logo me-1'>" +
+                "<p class='mb-0'> Macrohard Interweb Adventurer</p>" +
+                "</div> <div class='col col-sm-4 pe-1 d-flex justify-content-end'>" +
+                "<button class='close-btn warning-x'></button>" +
+                "</div>" +
+                "</div>" +
+                "<p class='ps-2 pe-2'><img src='images/warning.png' alt='' class='ms-1 me-3'>You have exceeded the window limit. Please close a window before continuing.</p>" +
+                "<button class='start lh-sm warning-close btn-outline'>OK</button>";
+            document.getElementsByTagName("main")[0].appendChild(newWarning);
+            document.getElementsByClassName("warning-close")[0].addEventListener("click", function () {
+                newWarning.remove();
+            })
+            document.getElementsByClassName("warning-x")[0].addEventListener("click", function () {
+                newWarning.remove();
+            })
+        } else {
+            // For making new div
+            const newDiv = document.createElement("div");
+            const frameSrc = launchBtn.getAttribute("data-address");
+            //gets window info from html
+            async function openExplorer() {
+                //gets info from html file
+                const resp = await fetch("ie-box.html");
+                const windowHTML = await resp.text();
+                // Creates new div in main
+                document.getElementsByTagName("main")[0].appendChild(newDiv);
+                //Fills div with info from html file
+                newDiv.innerHTML = windowHTML;
+                newDiv.getElementsByClassName("ie-iframe")[0].setAttribute("src", frameSrc)
+                let header = newDiv.querySelector(".ie-box-header");
+                // Drag IE Windows
+                dragElement(newDiv.firstChild);
+                //Checks if ie-box goes outside view
+                function elementOutside(elmnt) {
+                    if (elmnt.getBoundingClientRect().top <= 0) {
+                        elmnt.style.top = (elmnt.offsetHeight * 0.5) + "px";
+                    }
+
+                    if (elmnt.getBoundingClientRect().left <= 0) {
+                        elmnt.style.left = (elmnt.offsetWidth * 0.5) + "px";
+                    }
+
+                    if (elmnt.getBoundingClientRect().right >= window.innerWidth) {
+                        elmnt.style.left = window.innerWidth - (elmnt.offsetWidth * 0.5) + "px";
+                    }
+
+                    if (elmnt.getBoundingClientRect().bottom >= window.innerHeight) {
+                        elmnt.style.top = window.innerHeight - (elmnt.offsetHeight * 0.5) + "px";
+                    }
                 }
 
-                if (elmnt.getBoundingClientRect().left <= 0) {
-                    elmnt.style.left = (elmnt.offsetWidth * 0.5) + "px";
+                function dragElement(elmnt) {
+                    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                    if (header) {
+                        // if present, the header is where you move the DIV from:
+                        header.onmousedown = dragMouseDown;
+                    } else {
+                        // otherwise, move the DIV from anywhere inside the DIV:
+                        elmnt.onmousedown = dragMouseDown;
+                    }
+
+                    function dragMouseDown(e) {
+                        e = e || window.event;
+                        e.preventDefault();
+                        // get the mouse cursor position at startup:
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+                        document.onmouseup = closeDragElement;
+                        // call a function whenever the cursor moves:
+                        document.onmousemove = elementDrag;
+                    }
+
+                    function elementDrag(e) {
+                        e = e || window.event;
+                        e.preventDefault();
+                        // calculate the new cursor position:
+                        pos1 = pos3 - e.clientX;
+                        pos2 = pos4 - e.clientY;
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+
+                        elementOutside(newDiv.firstChild);
+                        // set the element's new position:
+                        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                    }
+
+                    function closeDragElement() {
+                        // stop moving when mouse button is released:
+                        document.onmouseup = null;
+                        document.onmousemove = null;
+                    }
                 }
 
-                if (elmnt.getBoundingClientRect().right >= window.innerWidth) {
-                    elmnt.style.left = window.innerWidth - (elmnt.offsetWidth * 0.5) + "px";
-                }
-
-                if (elmnt.getBoundingClientRect().bottom >= window.innerHeight) {
-                    elmnt.style.top = window.innerHeight - (elmnt.offsetHeight * 0.5) + "px";
-                }
-            }
-
-            function dragElement(elmnt) {
-                let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-                if (header) {
-                    // if present, the header is where you move the DIV from:
-                    header.onmousedown = dragMouseDown;
-                } else {
-                    // otherwise, move the DIV from anywhere inside the DIV:
-                    elmnt.onmousedown = dragMouseDown;
-                }
-
-                function dragMouseDown(e) {
-                    e = e || window.event;
-                    e.preventDefault();
-                    // get the mouse cursor position at startup:
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                    document.onmouseup = closeDragElement;
-                    // call a function whenever the cursor moves:
-                    document.onmousemove = elementDrag;
-                }
-
-                function elementDrag(e) {
-                    e = e || window.event;
-                    e.preventDefault();
-                    // calculate the new cursor position:
-                    pos1 = pos3 - e.clientX;
-                    pos2 = pos4 - e.clientY;
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-
+                const resizeObserver = new ResizeObserver(entires => {
                     elementOutside(newDiv.firstChild);
-                    // set the element's new position:
-                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                }
+                });
+                resizeObserver.observe(newDiv.firstChild);
+            }
+            //Runs when windows are added
+            function windowAdd() {
 
-                function closeDragElement() {
-                    // stop moving when mouse button is released:
-                    document.onmouseup = null;
-                    document.onmousemove = null;
+                //Gets all windows
+                let ieWindows = document.getElementsByClassName("ie-box");
+                //Loops through windows
+                for (let i = 0; i < ieWindows.length; i++) {
+                    let e = ieWindows[i];
+                    e.setAttribute("window", i);
+                    //Adds event listener to window buttons - Added if statement so doesn't double add
+                    if (!ieBtnsEventListened[i]) {
+                        ieBtnsEventListened[i] = true;
+                        //Adds taskbar div
+                        const newTaskbar = document.createElement("div");
+                        const newTaskBtn = document.createElement("button");
+                        newTaskbar.classList.add("taskbar-window", "col", "ps-0", "pe-1");
+                        newTaskbar.setAttribute("window", i);
+                        newTaskBtn.classList.add("taskbar-btn", "ps-1", "pt-0", "fw-bolder", "lh-sm", "text-start");
+                        newTaskBtn.innerHTML = "<img src='images/logo.png' alt='' class='footer-logo me-1 pb-1'> eRevive"
+                        document.getElementById("footer-windows").appendChild(newTaskbar);
+                        newTaskbar.appendChild(newTaskBtn);
+                        //To give focus when clicked
+                        giveFocus(i, e, ieWindows);
+                        //For maximise
+                        maxiBtn[i] = document.getElementsByClassName("maxi-btn")[i];
+                        maxiButton(i, e, maxiBtn, ieWindows);
+                        //For closing
+                        closeButton(i, e, maxiBtn);
+                        //For Minimise
+                        minimise(i, e);
+                        //For Refresh
+                        refreshButton(i, e);
+                        //For back
+                        backButton(i, e);
+                        //For forward
+                        fwdButton(i, e);
+                        //For taskbar select
+                        selectTask(i);
+                    }
+
                 }
             }
-
-            const resizeObserver = new ResizeObserver(entires => {
-                elementOutside(newDiv.firstChild);
+            openExplorer();
+            const ieWindowObserver = new MutationObserver(function (mutationRecords) {
+                let isNew = false;
+                for (let i = 0; i < mutationRecords.length; i++) {
+                    let mutation = mutationRecords[i];
+                    if (mutation.type === 'childList' && mutation.addedNodes.length) {
+                        isNew = true;
+                        break
+                    }
+                }
+                if (isNew) {
+                    windowAdd();
+                }
             });
-            resizeObserver.observe(newDiv.firstChild);
+            ieWindowObserver.observe(document.getElementsByTagName("main")[0], { childList: true });
         }
-        //Runs when windows are added
-        function windowAdd() {
-            //Gets all windows
-            let ieWindows = document.getElementsByClassName("ie-box");
-            //Loops through windows
-            for (let i = 0; i < ieWindows.length; i++) {
-                let e = ieWindows[i];
-                e.setAttribute("window", i);
-                //Adds event listener to window buttons - Added if statement so doesn't double add
-                if (!ieBtnsEventListened[i]) {
-                    ieBtnsEventListened[i] = true;
-                    //Adds taskbar div
-                    const newTaskbar = document.createElement("div");
-                    const newTaskBtn = document.createElement("button");
-                    newTaskbar.classList.add("taskbar-window", "col", "ps-0", "pe-1");
-                    newTaskbar.setAttribute("window", i);
-                    newTaskBtn.classList.add("taskbar-btn", "ps-1", "pt-0", "fw-bolder", "lh-sm", "text-start");
-                    newTaskBtn.innerHTML = "<img src='images/logo.png' alt='' class='footer-logo me-1 pb-1'> eRevive"
-                    document.getElementById("footer-windows").appendChild(newTaskbar);
-                    newTaskbar.appendChild(newTaskBtn);
-                    //To give focus when clicked
-                    giveFocus(i, e, ieWindows);
-                    //For maximise
-                    maxiBtn[i] = document.getElementsByClassName("maxi-btn")[i];
-                    maxiButton(i, e, maxiBtn, ieWindows);
-                    //For closing
-                    closeButton(i, e, maxiBtn);
-                    //For Minimise
-                    minimise(i, e);
-                    //For Refresh
-                    refreshButton(i, e);
-                    //For back
-                    backButton(i, e);
-                    //For forward
-                    fwdButton(i, e);
-                    //For taskbar select
-                    selectTask(i);
-                }
-
-            }
-        }
-        openExplorer();
-        const ieWindowObserver = new MutationObserver(function (mutationRecords) {
-            let isNew = false;
-            for (let i = 0; i < mutationRecords.length; i++) {
-                let mutation = mutationRecords[i];
-                if (mutation.type === 'childList' && mutation.addedNodes.length) {
-                    isNew = true;
-                    break
-                }
-            }
-            if (isNew) {
-                windowAdd();
-            }
-        });
-        ieWindowObserver.observe(document.getElementsByTagName("main")[0], { childList: true });
-    }
+    })
+}
+//For dropup animation
+let dropup = document.getElementById("dropup");
+let dropupMenu = document.getElementById("dropdown-menu");
+dropup.addEventListener("hidden.bs.dropdown", event => {
+    document.getElementById("dropdown-menu").classList.add("start-closing");
+    dropupMenu.addEventListener("animationend", function () {
+        document.getElementById("dropdown-menu").classList.remove("start-closing");
+    })
 })
-
 //Function for BSOD
 function shutDown() {
     let audio = new Audio('audio/bsod.mp3');
+    let overlay = document.getElementById("overlay");
     audio.play();
-    document.getElementById("overlay").style.backgroundImage = "url(images/bsod.png)";
-    document.getElementById("overlay").style.backgroundColor = "#1903A6";
-    document.getElementById("overlay").style.opacity = "100%";
-    document.getElementById("overlay").style.backgroundRepeat = "no-repeat";
-    document.getElementById("overlay").style.backgroundSize = "contain";
-    document.getElementById("overlay").style.backgroundPosition = "center center";
-    document.getElementById("overlay").style.height = "101vh";
-    document.getElementById("myFooter").style.display = "none";
-    document.getElementById("ie-col").style.zIndex = "0";
+    document.getElementById("footer").style.display = "none";
+    overlay.classList.add("bsod");
 }
 //Event listener for press of shutdown button, causes BSOD
 document.getElementById("shutDown").addEventListener("click", function () {
@@ -417,12 +426,9 @@ document.getElementById("shutDown").addEventListener("click", function () {
 
 //Function to undo BSOD
 function unBSOD() {
-    document.getElementById("overlay").style.backgroundImage = "none";
-    document.getElementById("overlay").style.backgroundColor = "#FF6AD5";
-    document.getElementById("overlay").style.opacity = "40%";
-    document.getElementById("overlay").style.height = "96vh";
-    document.getElementById("myFooter").style.display = "block";
-    document.getElementById("ie-col").style.zIndex = "2";
+    let overlay = document.getElementById("overlay");
+    overlay.classList.remove("bsod");
+    document.getElementById("footer").style.display = "block";
 }
 //Event listner for button press while BSOD
 document.getElementById("overlay").addEventListener("click", function () {
