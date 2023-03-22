@@ -138,7 +138,7 @@ h1 {
     width: 1000px;
     height: 750px;
     max-width: 100%;
-    max-height: 100%;
+    max-height: calc(100% - 37px);
     min-width: 408px;
     transform: translate(-50%, -50%);
     z-index: 4;
@@ -358,14 +358,13 @@ ul {
 
 /* Main area of IE box */
 .ie-main {
-    height: 100%;
+    height: calc(100% - 126.5px);
     padding-bottom: 21px;
     background-color: #ffffff;
     border: 1.5px solid #4b4b4b;
     border-bottom: 1.5px #8d8d8d;
     overflow: hidden;
 }
-
 
 /* Bottom bar on IE box */
 .ie-bottom {
