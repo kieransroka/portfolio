@@ -526,6 +526,12 @@ footer {
     height: auto;
 }
 
+.start-divider {
+    height: 5px;
+    width: 100%;
+    border-top: 1px solid #808080;
+}
+
 /* For logo on start button */
 .footer-logo {
     width: auto;

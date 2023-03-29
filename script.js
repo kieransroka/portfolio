@@ -420,7 +420,7 @@ function shutDown() {
     overlay.classList.add("bsod");
 }
 //Event listener for press of shutdown button, causes BSOD
-document.getElementById("shutDown").addEventListener("click", function () {
+document.getElementById("shutdown").addEventListener("click", function () {
     shutDown();
 })
 
