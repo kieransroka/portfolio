@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Roboto:wght@700&display=swap');
 
 @font-face {
     font-family: LeviWindows;
@@ -84,6 +84,15 @@ h1 {
     z-index: 6;
 }
 
+#warning-underlay {
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .warning {
     width: 50%;
     height: auto;
@@ -121,7 +130,9 @@ h1 {
 
 /* Text under icons on left */
 .icons-95-txt {
-    font-family: 'Libre Barcode 128', cursive;
+    font-family: 'Libre Barcode 128 Text',
+        cursive;
+    font-size: 18px;
 }
 
 /* Sets width of col for icons */

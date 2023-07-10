@@ -72,9 +72,6 @@ function maxiButton(i, e, maxi, ieWindows) {
         }
         maxedState[ieWindow] = !maxedState[ieWindow];
     })
-    document.getElementById("test").addEventListener("click", function () {
-        console.log(maxedState, oldHeight, oldWidth, oldLeft, oldTop, ieBtnsEventListened, maxi, ieWindows, i, e);
-    })
 }
 
 //Close ie window function
@@ -239,8 +236,10 @@ for (let i = 0; i < launchBtns.length; i++) {
             let audio = new Audio('audio/bsod.mp3');
             audio.play();
             const newWarning = document.createElement("div");
+            const warningUnderlay = document.createElement("div");
             newWarning.classList.add("warning", "text-center", "pb-3");
             newWarning.innerHTML =
+
                 "<div class='ie-box-header row align-items-center ms-0 me-0 mb-3'>" +
                 "<div class='col col-sm-8 d-flex align-items-center ps-1'>" +
                 "<img src='images/logopagebw.png' alt='' class='address-logo me-1'>" +
@@ -251,17 +250,22 @@ for (let i = 0; i < launchBtns.length; i++) {
                 "</div>" +
                 "<p class='ps-2 pe-2'><img src='images/warning.png' alt='' class='ms-1 me-3'>You have exceeded the window limit. Please close a window before continuing.</p>" +
                 "<button class='start lh-sm warning-close btn-outline'>OK</button>";
+            warningUnderlay.innerHTML = "<div id='warning-underlay'></div>";
             document.getElementsByTagName("main")[0].appendChild(newWarning);
+            document.getElementsByTagName("main")[0].appendChild(warningUnderlay);
             document.getElementsByClassName("warning-close")[0].addEventListener("click", function () {
                 newWarning.remove();
+                warningUnderlay.remove();
             })
             document.getElementsByClassName("warning-x")[0].addEventListener("click", function () {
                 newWarning.remove();
+                warningUnderlay.remove();
             })
         } else {
             // For making new div
             const newDiv = document.createElement("div");
             const frameSrc = launchBtn.getAttribute("data-address");
+
             //gets window info from html
             async function openExplorer() {
                 //gets info from html file
@@ -273,6 +277,11 @@ for (let i = 0; i < launchBtns.length; i++) {
                 newDiv.innerHTML = windowHTML;
                 newDiv.getElementsByClassName("ie-iframe")[0].setAttribute("src", frameSrc)
                 let header = newDiv.querySelector(".ie-box-header");
+                //Address URL
+                const addressBar = newDiv.getElementsByClassName("address-url")[0];
+                addressBar.innerHTML = frameSrc;
+                const goBtn = newDiv.getElementsByClassName("go-btn")[0];
+                goBtn.href = frameSrc;
                 // Drag IE Windows
                 dragElement(newDiv.firstChild);
                 //Checks if ie-box goes outside view
@@ -360,9 +369,10 @@ for (let i = 0; i < launchBtns.length; i++) {
                         newTaskbar.classList.add("taskbar-window", "col", "ps-0", "pe-1");
                         newTaskbar.setAttribute("window", i);
                         newTaskBtn.classList.add("taskbar-btn", "ps-1", "pt-0", "fw-bolder", "lh-sm", "text-start");
-                        newTaskBtn.innerHTML = "<img src='images/logo.png' alt='' class='footer-logo me-1 pb-1'> eRevive"
+                        newTaskBtn.innerHTML = "<img src='images/logo.png' alt='' class='footer-logo me-1 pb-1'>Interweb Adventurer";
                         document.getElementById("footer-windows").appendChild(newTaskbar);
                         newTaskbar.appendChild(newTaskBtn);
+
                         //To give focus when clicked
                         giveFocus(i, e, ieWindows);
                         //For maximise

@@ -1,3 +1,2 @@
-1. Add dropdowns for file buttons
-2. Add websites
-3. Add new overlay when error box appears
+1. Add dropdowns for file buttons (delay)
+2. Fix name on task
