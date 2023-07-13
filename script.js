@@ -226,6 +226,7 @@ function selectTask(i) {
 
 }
 
+
 //Ie-box window create
 let launchBtns = document.getElementsByClassName("ie-launch");
 for (let i = 0; i < launchBtns.length; i++) {
@@ -282,6 +283,10 @@ for (let i = 0; i < launchBtns.length; i++) {
                 addressBar.innerHTML = frameSrc;
                 const goBtn = newDiv.getElementsByClassName("go-btn")[0];
                 goBtn.href = frameSrc;
+                goBtn.firstElementChild.addEventListener("mouseover", function () {
+                    goBtn.firstElementChild.classList.remove("btn-flash");
+
+                })
                 // Drag IE Windows
                 dragElement(newDiv.firstChild);
                 //Checks if ie-box goes outside view
