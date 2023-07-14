@@ -241,7 +241,7 @@ for (let i = 0; i < launchBtns.length; i++) {
             newWarning.classList.add("warning", "text-center", "pb-3");
             newWarning.innerHTML =
 
-                "<div class='ie-box-header row align-items-center ms-0 me-0 mb-3'>" +
+                "<div class='ie-box-header row align-items-center ms-0 me-0 mb-3 text-nowrap'>" +
                 "<div class='col col-sm-8 d-flex align-items-center ps-1'>" +
                 "<img src='images/logopagebw.png' alt='' class='address-logo me-1'>" +
                 "<p class='mb-0'> Macrohard Interweb Adventurer</p>" +

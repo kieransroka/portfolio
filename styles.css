@@ -654,7 +654,53 @@ footer {
         margin-right: 0 !important;
     }
 
+    .ie-box {
+        min-width: 0;
+        min-width: 100vw;
+        min-height: calc(100% - 37px);
+        top: 0;
+    }
+
+    .mini-btn {
+        display: none;
+    }
+
+    .maxi-btn {
+        display: none;
+    }
+
+    .close-btn {
+        width: 17.5px;
+        height: 17.5px;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .address-bar {
+        max-width: 65%;
+    }
+}
+
+@media only screen and (max-width: 530px) {
+    .address-bar {
+        max-width: 60%;
+    }
+}
+
+@media only screen and (max-width: 470px) {
     .address-bar {
         max-width: 55%;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    .address-bar {
+        max-width: 50%;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    .address-bar {
+        max-width: 45%;
     }
 }
