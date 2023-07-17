@@ -27,6 +27,7 @@ iframe {
 button {
     background-color: transparent;
     border: none;
+    color: rgb(14, 14, 14);
 }
 
 button:focus {

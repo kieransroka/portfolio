@@ -285,7 +285,6 @@ for (let i = 0; i < launchBtns.length; i++) {
                 goBtn.href = frameSrc;
                 goBtn.firstElementChild.addEventListener("mouseover", function () {
                     goBtn.firstElementChild.classList.remove("btn-flash");
-
                 })
                 // Drag IE Windows
                 dragElement(newDiv.firstChild);
@@ -449,15 +448,11 @@ function unBSOD() {
 document.getElementById("overlay").addEventListener("click", function () {
     unBSOD();
 })
-//Spinner for both buttons on search page
-if (window.location.pathname == "/php/KS_website/index.html") {
-    document.getElementById("submit").addEventListener("click", function () {
-        document.getElementById("spinner").style.display = "inline-block";
-    })
-    document.getElementById("viewAll").addEventListener("click", function () {
-        document.getElementById("spinner").style.display = "inline-block";
-    })
-}
+
+let startBtn = document.getElementById("start");
+startBtn.addEventListener("mouseenter", function () {
+    startBtn.classList.remove("btn-flash");
+})
 
 //Function that gets the local time of machine and displays in bottom right
 function time() {
