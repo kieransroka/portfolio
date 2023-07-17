@@ -372,7 +372,7 @@ for (let i = 0; i < launchBtns.length; i++) {
                         const newTaskBtn = document.createElement("button");
                         newTaskbar.classList.add("taskbar-window", "col", "ps-0", "pe-1");
                         newTaskbar.setAttribute("window", i);
-                        newTaskBtn.classList.add("taskbar-btn", "ps-1", "pt-0", "fw-bolder", "lh-sm", "text-start");
+                        newTaskBtn.classList.add("taskbar-btn", "ps-1", "pt-0", "fw-bolder", "lh-sm", "text-start", "text-truncate");
                         newTaskBtn.innerHTML = "<img src='images/logo.png' alt='' class='footer-logo me-1 pb-1'>Interweb Adventurer";
                         document.getElementById("footer-windows").appendChild(newTaskbar);
                         newTaskbar.appendChild(newTaskBtn);
