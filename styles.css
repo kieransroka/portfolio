@@ -649,6 +649,7 @@ footer {
         font-size: 0;
         margin-bottom: 4px;
         text-align: center !important;
+        font-size: 8px;
     }
 
     .taskbar-btn>.footer-logo {
