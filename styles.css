@@ -210,6 +210,9 @@ h1 {
     background-size: cover;
     border: none;
     -webkit-text-size-adjust: unset;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .minimise {
@@ -257,6 +260,9 @@ h1 {
     background-size: cover;
     border: none;
     -webkit-text-size-adjust: unset;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .close-btn {
@@ -269,6 +275,9 @@ h1 {
     border: none;
     margin-left: 2px;
     -webkit-text-size-adjust: unset;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 /* File bar on IE */
