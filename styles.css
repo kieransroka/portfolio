@@ -191,7 +191,7 @@ h1 {
 /* Topmost bar on IE */
 .ie-box-header {
     min-width: 100%;
-    max-height: 20px;
+    height: 20px;
     background: linear-gradient(90deg, rgba(0, 0, 128, 1) 0%, rgba(16, 132, 208, 1) 100%);
     font-family: 'LeviWindows';
     font-size: 15px;
