@@ -203,7 +203,9 @@ h1 {
 /* Icons on top right of IE box */
 .mini-btn {
     height: 14px !important;
+    max-height: 14px;
     width: 14px !important;
+    max-width: 14px;
     background-image: url(images/min.png);
     background-size: cover;
     border: none;
@@ -247,15 +249,9 @@ h1 {
 
 .maxi-btn {
     height: 14px !important;
+    max-height: 14px;
     width: 14px !important;
-    background-image: url(images/max.png);
-    background-size: cover;
-    border: none;
-}
-
-.close-btn {
-    height: 14px !important;
-    width: 14px !important;
+    max-width: 14px;
     background-image: url(images/close.png);
     background-size: cover;
     border: none;
